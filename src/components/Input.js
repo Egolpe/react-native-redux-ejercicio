@@ -6,13 +6,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         height: 34,
         alignSelf: 'stretch',
-        padding: 5,
+        padding: 10,
     }
 })
 
-const input = () => {
+const input = ({ onChange, value, onSubmit }) => {
     return(
-        <TextInput style={styles.input}/>
+        <TextInput onSubmitEditing={onSubmit} onChangeText={onChange} value={value} style={styles.input}/>
     )
 }
 

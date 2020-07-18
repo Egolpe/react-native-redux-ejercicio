@@ -8,10 +8,20 @@ const initialState = [
 ]
 
 const COMPLETE = 'COMPLETE'
+const SUBMIT = 'SUBMIT'
 
 export const complete = id => ({
    type: COMPLETE,
    payload: id,
+})
+
+export const submit = text => ({
+   type: SUBMIT,
+   payload: {
+      id: Math.random().toString(36),
+      desc: text,
+      complete: false,
+   }
 })
 export default (state = initialState, action) => {
       switch(action.type) {
@@ -19,9 +29,11 @@ export default (state = initialState, action) => {
             return state.map(x => x.id === action.payload 
                ? ({ ...x, completed: !x.completed }) 
                : x)
-               
-               default: 
-                  return state
+         case SUBMIT: {
+            return [action.payload].concat(state);
+            }
+         default: 
+            return state
       }
 }
   
