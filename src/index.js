@@ -1,6 +1,9 @@
 import React from 'react'
 import { StyleSheet, View, FlatList } from 'react-native';
+import { connect } from 'react-redux';
 import ListItem from  './components/ListItem';
+import Input from './components/Input';
+import { complete } from  './reducers/todos';
 
 const styles = StyleSheet.create({
     container: {
@@ -15,26 +18,32 @@ const styles = StyleSheet.create({
     }
 });
 
-const data = [
-    {
-        id: 1, desc: 'texto prueba', completed: false
-    },
-    {
-        id: 2, desc: 'texto prueba 2', completed: false
-    }
-]
-export default  () => {
+
+const App = ({ data, complete }) => {
     return(
       <View style={styles.container}>
+        <Input />
         <FlatList 
             style={styles.list}
             data={data}
             keyExtractor={x => String(x.id)}
             renderItem={({ item }) => 
-                <ListItem onPress={() => {} } desc={item.desc}/>} 
+                <ListItem  completed={item.completed} 
+                onPress={() => complete(item.id)} desc={item.desc}
+                />} 
         />
       </View>
     )
 }
+
+const mapStateToProps = state => {
+    return {data: state.todos} //siempre sacar la data que queremos retornar y se cambia arriba en data y en la función App
+}
+
+const mapDispatchToProps = dispatch => ({
+    complete: (id) => dispatch(complete(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 
